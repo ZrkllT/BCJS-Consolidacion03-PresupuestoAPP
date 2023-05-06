@@ -9,11 +9,9 @@ function encabezadoPresupuesto(){
     this.montoSaldo = 0
     /*
     0.- ingreso inicial
-    1.- ingreso gasto
-    2.- ingreso ingreso
+    1.- ingreso gasto   | 2.- ingreso ingreso
 
-    3.- elimino gasto
-    4.- elimino ingreso
+    3.- elimino gasto   | 4.- elimino ingreso
      */
     this.updSaldo = function(tipo,monto){
         if(tipo === 0){
@@ -43,23 +41,60 @@ function validaPresupuesto(){
     if(arrayPresupuesto.length > 0){
         dibujarPresupuesto()
         $('#tablePresupuesto').removeClass('d-none')
+
+        $('#inputNameEgreso').prop('disabled', false)
+        $('#inputMontoEgreso').prop('disabled', false)
+        $('#btnEgreso').removeClass('disabled')
     }else{
         $('#tablePresupuesto').addClass('d-none')
         $('#tableGastos').addClass('d-none')
+
+        $('#inputNameEgreso').prop('disabled', true)
+        $('#inputMontoEgreso').prop('disabled', true)
+        $('#btnEgreso').addClass('disabled')
+    }
+}
+
+function obtenerPresupuesto(){
+    var montoInicialPresupuesto = $('#inputPresupuesto').val()
+    if(montoInicialPresupuesto == 0){
+        alert('El presupuesto Inicial debe ser mayor a 0')
+    }else{
+        llenarPresupuesto(montoInicialPresupuesto)
+        document.getElementById('inputNameEgreso').focus();
+    }
+}
+
+function obtenerGasto(){
+    var montoGasto = $('#inputMontoEgreso').val()
+    var nombreGasto = $('#inputNameEgreso').val()
+    if(arrayPresupuesto.length > 0){
+        if(montoGasto == 0){
+            alert('El valor del gasto debe ser mayor a 0')
+        }else{
+            ingresarGastos(nombreGasto,montoGasto)
+            document.getElementById('inputNameEgreso').focus();
+        }
+    }else{
+        alert('Antes de ingresar Gastos, debe Indicar un Presupuesto')
     }
 }
 
 /* genero solo 1 presupesto */
 function llenarPresupuesto(monto){
+    document.getElementById('inputPresupuesto').value = '';
     if(arrayPresupuesto.length == 0){
         arrayPresupuesto.push(new encabezadoPresupuesto)
         arrayPresupuesto[0].updSaldo(0,monto)
     }else{
         alert('Ya existe un Presupuesto Ingresado')
     }
+    validaPresupuesto()
 }
 
 function ingresarGastos(nombre,monto){
+    document.getElementById('inputNameEgreso').value = '';
+    document.getElementById('inputMontoEgreso').value = '';
     arrayGastos.push(new listaGastos(nombre,monto))
     arrayPresupuesto[0].updSaldo(1,monto)
     dibujarGastos()
@@ -108,37 +143,38 @@ function dibujarGastos(){
             <tr>
               <td>${gasto.nombre}</td>
               <td class="text-end">${gasto.monto.toLocaleString("es-cl",{style:"currency",currency:"CLP"})}</td>
-              <td><button id="gasto${index}" onclick="eliminarGasto(${index})">-_-</button></span></td>
+              <td><button id="gasto${index}" onclick="eliminarGasto(${index})" class="icon-link btn bnt-outline-primary border-0"><img src="./assets/img/trash.svg"></button></td>
             </tr>
             `)
     })
 }
 
-
 $(document).ready(function(){
     validaPresupuesto()
 
+    $(document).on('keypress','#inputPresupuesto',function(k){
+        if(k.keyCode === 13){
+           obtenerPresupuesto()
+        }
+    })
+
     $(document).on('click','#btnPresupuesto',function(){
-        var montoInicialPresupuesto = $('#inputPresupuesto').val()
-        if(montoInicialPresupuesto == 0){
-            alert('El presupuesto Inicial debe ser mayor a 0')
-        }else{
-            llenarPresupuesto(montoInicialPresupuesto)
-            dibujarPresupuesto()
+        obtenerPresupuesto()
+    })
+
+    $(document).on('keypress','#inputNameEgreso',function(k){
+        if(k.keyCode === 13){
+            document.getElementById('inputMontoEgreso').focus();
+        }
+    })
+    $(document).on('keypress','#inputMontoEgreso',function(k){
+        if(k.keyCode === 13){
+            obtenerGasto()
         }
     })
 
     $(document).on('click','#btnEgreso',function(){
-        var montoGasto = $('#inputMontoEgreso').val()
-        var nombreGasto = $('#inputNameEgreso').val()
-        if(arrayPresupuesto.length > 0){
-            if(montoGasto == 0){
-                alert('El valor del gasto debe ser mayor a 0')
-            }else{
-                ingresarGastos(nombreGasto,montoGasto)
-            }
-        }else{
-            alert('Antes de ingresar Gastos, debe Indicar un Presupuesto')
-        }
+        obtenerGasto()
     })
 })
+
