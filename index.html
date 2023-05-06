@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <title>Consolidación 03</title> -->
+  <title>Presupuesto App</title>
+  <link rel="stylesheet" type="text/css" href="./assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/presupuesto.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h3>Presupuesto APP</h3>
+    </header>
+
+    <section class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div id="idCardPresupuesto" class="card">
+            <div class="card-body">
+              <label for="inputPresupuesto">Ingresa Tu Presupuesto</label>
+              <input id="inputPresupuesto" type="number" class="form-control mt-2">
+              <button id="btnPresupuesto" class="btn btn-success mt-2">Calcular</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <table id="tablePresupuesto" class="table">
+            <thead>
+              <tr>
+                <th>Presupuesto</th>
+                <th>Gastos</th>
+                <th>Saldos</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <div class="row mt-3">
+        <div class="col-12 col-md-4">
+          <div id="idCardEgreso" class="card">
+            <div class="card-body">
+              <label for="inputNameEgreso">Ingresa el Nombre del Gasto</label>
+              <input id="inputNameEgreso" type="text" class="form-control mt-2">
+              <label for="inputMontoEgreso">Ingresa el Valor del Gasto</label>
+              <input id="inputMontoEgreso" type="number" class="form-control mt-2">
+              <button id="btnEgreso" class="btn btn-danger mt-2">Añadir Gasto</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <table id="tableGastos" class="table">
+            <thead>
+              <tr>
+                <th>Gasto</th>
+                <th class="text-end">Valor</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="text/javascript" src="./assets/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="./assets/js/jquery-3.6.4.min.js"></script>
+  <script type="text/javascript" src="./assets/js/presupuesto.js"></script>
+</body>
+</html>
